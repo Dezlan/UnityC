@@ -13,13 +13,18 @@ public class Targetting : MonoBehaviour {
 
 	//holds the transform value of the....player?
 	private Transform myTransform;
+
+
+
+
+
 		
 	// Use this for initialization
 	void Start () {
 		targets = new List<Transform>();
 		selectedTarget = null;
 		myTransform = transform;
-		
+
 		AddAllEnemies();
 	}
 	
@@ -84,14 +89,20 @@ public class Targetting : MonoBehaviour {
 	
 	private void SelectTarget() {
 		selectedTarget.renderer.material.color = Color.red;
-		
+
+
+
+		selectedTarget.GetComponent< EnemyHealth>().isSelected = true;
+
+
 		PlayerAttack pa = (PlayerAttack)GetComponent("PlayerAttack");
-		
+
 		pa.target = selectedTarget.gameObject;
 	}
 	
 	private void DeselectTarget() {
 		selectedTarget.renderer.material.color = Color.white;
+		selectedTarget.GetComponent< EnemyHealth>().isSelected = false;
 		selectedTarget = null;
 	}
 	
@@ -111,7 +122,11 @@ public class Targetting : MonoBehaviour {
 	//loop through targets, looking for in range
 		for(int i=0; i<targets.Count; i++){
 
-			//Debug.Log(targets[i]);
+			//Debug.Log(targets[i].transform);
+
+			if(targets[i] == null){
+				targets.RemoveAt(i);
+			}
 
 			float distance = Vector3.Distance(myTransform.position,targets[i].transform.position);
 
@@ -130,5 +145,4 @@ public class Targetting : MonoBehaviour {
 		}
 
 }
-
 }

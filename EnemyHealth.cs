@@ -3,11 +3,12 @@ using UnityEngine;
 using System.Collections;
 
 public class EnemyHealth : MonoBehaviour {
-	public int maxHealth = 100;
-	public int curHealth = 100;
-	
-	public float healthBarLength;
+	public int maxHealth = 30;
+	public int curHealth = 30;
+	public bool isSelected;
 
+	public float healthBarLength;
+	//public static bool isSelected = false;
 	// Use this for initialization
 	void Start () {
 		healthBarLength = Screen.width / 2;
@@ -16,11 +17,9 @@ public class EnemyHealth : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		AddjustCurrentHealth(0);
+
 	}
-	
-	void OnGUI() {
-		GUI.Box(new Rect(10, 40, healthBarLength, 20), curHealth + "/" + maxHealth);
-	}
+
 	
 	public void AddjustCurrentHealth(int adj) {
 		curHealth += adj;
@@ -33,7 +32,16 @@ public class EnemyHealth : MonoBehaviour {
 		
 		if(maxHealth < 1)
 			maxHealth = 1;
+
+		if(curHealth == 0)
+			//destroy game object
+			Destroy (gameObject);
 		
 		healthBarLength = (Screen.width / 2) * (curHealth / (float)maxHealth);
 	}
+	void OnGUI(){
+		if(isSelected){
+		GUI.Box(new Rect(10, 40, healthBarLength, 20), curHealth + "/" + maxHealth);
+		}
+		}
 }
